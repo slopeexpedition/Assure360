@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Register Agency</title>
+  <!-- <link rel="stylesheet" type="text/css"
+    href="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/CDN/deps/opt/bootstrap.css" /> -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+
+<body>
+  <style>
+    label, legend {
+      margin: 0 !important;
+      font-weight: bold;
+    }
+
+    .form-group {
+      margin-bottom: 15px !important;
+    }
+
+    input.btn {
+      float: right !important;
+    }
+
+    .expandable>legend:before {
+      content: '\25B8';
+      padding-right: 5px;
+    }
+
+    .expanded>legend:before {
+      content: '\25BE';
+    }
+  </style>
+  <div id="page-wrapper">
+    <header id="header" class="alt" style="background-color: black;">
+      <h1 style="margin-top: 3px;"><a href="Assure360_Landing.html"><img src="images/Logo.png" style="width:50%"></img></h1>
+      <nav id="nav">
+				<ul>
+					<li><a href="Assure360_ManageTrips.html">Create a Multi-Point Trip</a></li>
+					<li>
+						<a href="#" class="icon solid fa-angle-down">Options</a>
+						<ul>
+							<li><a href="Assure360_RegisterAgency.html">Register an Agency</a></li>
+							<li><a href="Assure360_SearchTrips.html">Search Trips</a></li>
+						</ul>
+					</li>
+					
+					<li><a href="../Titan_Landing.html">Titan Home</a></li>
+					<!-- <li><a href="#" class="button">Sign In</a></li> -->
+				</ul>
+			</nav>
+    </header>
+  </div>
+  <div class="container">
+    <div style="margin-top: 30px;">
+    <ol style="background-color:antiquewhite; font-size: larger;color: black;">
+      <p>Agency can register in <b>Assure360</b> <b><i><u>by providing their Details </b></i></u> and optional details for Networking</p>
+     
+      
+      
+    </ol>
+      
+    </div>
+    <form id="insertForm"></form>
+  </div>
+  <br></br>
+  <!-- Footer -->
+  <footer id="footer">
+    <ul class="icons">
+      <!--social media icons-->
+      <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+      <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+      <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+      <li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+      <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+      <li><a href="#" class="icon brands fa-google-plus"><span class="label">Google+</span></a></li>
+    </ul>
+     <!--copyright-->
+    <ul class="copyright">
+      <li>&copy; Chubb Studio Innovation Challenge. All rights reserved.</li>
+    </ul>
+  </footer>
+
+  <div id="res" class="alert"></div>
+     <!--scripts to be included in the page-->
+  <script src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/js/jquery.min.js"></script>
+  <script src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/js/jquery.dropotron.min.js"></script>
+  <script src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/js/jquery.scrollex.min.js"></script>
+  <script src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/js/browser.min.js"></script>
+  <script src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/js/breakpoints.min.js"></script>
+  <script src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/js/util.js"></script>
+  <script src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/js/main.js"></script>
+  <script type="text/javascript"
+    src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/CDN/deps/underscore.js"></script>
+  <script type="text/javascript"
+    src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/CDN/deps/opt/jsv.js"></script>
+  <script type="text/javascript"
+    src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/CDN/lib/jsonform.js"></script>
+  <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js" type="text/javascript"></script>
+  <link href="https://cdn.syncfusion.com/ej2/material.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuidv4.min.js"></script>
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", _ => {
+      $('#insertForm').jsonForm({
+    //create a schema
+        schema: {
+          AgencyName: {
+            type: 'string',
+            title: 'Agency Name*',
+            required: true
+          },
+          RegistrationNumber: {
+            type: 'string',
+            title: 'Registration Number*',
+            required: true
+          },
+          Contact: {
+            type: 'string',
+            title: 'Contact Number*',
+            required: true
+          },
+          Address: {
+            type: 'string',
+            title: 'Address'
+          },
+          DisasterName: {
+            type: 'string',
+            title: 'Disaster Name*',
+            required: true
+          },
+          PANNumber: {
+            type: 'string',
+            title: 'Enter your PAN Card number'
+          },
+          XRPAddress: {
+            type: 'string',
+            title: 'XRP Address'
+          },
+          XRPSecret: {
+            type: 'string',
+            title: 'XRP Secret'
+          },
+          XRPSequenceNumber: {
+            type: 'string',
+            title: 'XRP Sequence Number'
+          },
+          OtherPayments: {
+            type: 'string*',
+            required: true,
+            title: 'Other Payments*',
+            enum: [
+              'Net Banking',
+              'Paytm',
+              'UPI',
+              'others'
+            ]
+          }
+        },
+        form: [
+          {
+            key: "AgencyName",
+            type: "text"
+          },
+          {
+            key: "RegistrationNumber",
+            type: "text"
+          },
+          {
+            key: "Contact",
+            type: "text"
+          },
+          {
+            key: "Address",
+            type: "textarea"
+          },
+          {
+            key: "DisasterName"
+          },
+          {
+            "type": "fieldset",
+            "title": "Ripple Account Details (only for contributors)",
+            "expandable": true,
+            "items": [
+              "PANNumber",
+              "XRPAddress",
+              "XRPSecret",
+              "XRPSequenceNumber"
+            ]
+          },
+          {
+            key: "OtherPayments"
+          },
+          {
+            type: "submit",
+            title: "Register as Agency "
+          } 
+        ],
+        onSubmit: function (errors, values) {
+          if (errors) {
+            $('#res').html('<p>Please fill required fields!</p>');
+          }
+          else {
+            console.log(values);
+          }
+        }
+      });
+
+    });
+
+  </script>
+</body>
+
+</html>

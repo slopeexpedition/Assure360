@@ -1,0 +1,606 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>Welcome to Assure360</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+
+</head>
+<script src="http://www.w3schools.com/lib/w3data.js"></script>
+<style>
+	body{
+                touch-action:none;
+            }
+	/**
+    * ej2 Menu - toolbar integration styles
+    */
+    .toolbar-menu-control {
+        margin: 45px auto 0;
+        max-width: 950px;
+    }
+    
+    /* Search and Shopping cart icons */
+    @font-face {
+        font-family: 'e-menu';
+        src:
+        url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    .em-icons {
+        font-family: 'e-menu';
+        font-style: normal;
+        font-variant: normal;
+        font-weight: normal;
+        text-transform: none;
+        line-height: 1;
+    }
+    .toolbar-menu-control .e-search::before {
+        content: '\e5b9';
+    }
+    .toolbar-menu-control .e-shopping-cart::before {
+        content: '\e7e8';
+    }
+
+    /* Shopping cart icon size */
+    .toolbar-menu-control .e-toolbar-items .e-toolbar-item .e-tbar-btn .e-btn-icon.e-shopping-cart {
+        font-size: 20px;
+        margin: 4px 1px 0 0;
+    }
+    .e-bigger .toolbar-menu-control .e-toolbar-items .e-toolbar-item .e-tbar-btn .e-btn-icon.e-shopping-cart {
+        font-size: 30px;
+        margin-top: 7px; 
+    }
+    .e-bigger.material .toolbar-menu-control .e-toolbar-items .e-toolbar-item .e-tbar-btn.e-btn {
+        margin-top: 3.5px;
+    }
+</style>
+<body class="landing is-preload">
+	<div id="page-wrapper">
+        <header id="header" class="alt" style="background-color: black;">
+          <h1 style="margin-top: 3px;"><a href="Assure360_Landing.html"><img src="images/Logo.png" style="width:50%"></img></h1>
+          <nav id="nav">
+                    <ul>
+                        <li><a href="Assure360_ManageTrips.html">Create a Multi-Point Trip</a></li>
+                        <li>
+                            <a href="#" class="icon solid fa-angle-down">Options</a>
+                            <ul>
+                                <li><a href="Assure360_RegisterAgency.html">Register an Agency</a></li>
+                                <li><a href="Assure360_SearchTrips.html">Search Trips</a></li>
+                            </ul>
+                        </li>
+                        
+                        <li><a href="../Titan_Landing.html">Titan Home</a></li>
+                        <!-- <li><a href="#" class="button">Sign In</a></li> -->
+                    </ul>
+                </nav>
+        </header>
+      </div>
+
+		<!-- Banner -->
+		<!-- Banner -->
+		<section id="banner">
+			<h2>Assure 360</h2>
+			
+			<ul class="actions special">
+				<li><a href="Assure360_ManageTrips.html" class="button primary">Create a Trip with Insurance(s)</a></li>
+				<li><a href="Assure360_SearchTrips.html" class="button primary">Search Trips</a></li>
+			</ul>
+		</section>
+		<!-- Main -->
+
+		<section id="main" class="container">
+
+			<section class="box special">
+				
+
+				<header class="major">
+					<h2>Multi-Segment, Multi-Value, Multi-Party Insurances <br>for a Supply Chain Long Trip Delivery</h2>
+					<br />
+
+					<h3>Manage Multiple Accidents, Gadgets, Valuables Insurance(s) with Chubb Studio API</h3>
+
+				</header>
+				
+			</section>
+
+			<section class="box special features">
+				<div class="features-row">
+					<section>
+						<span class="icon solid major fa-bolt accent2"></span>
+						<h3>Multiple Types and Plans</h3>
+						<p>Assure360 leverages three types of Policies including Accidental, Gadgets and Valuables to cover varied requirements of Insurance</p>
+					</section>
+					<section>
+						<span class="icon solid major fa-lock accent4"></span>
+						<h3>Serverless & Highly Scalable</h3>
+						<p>Assure360 is elastic and can scale to millions of records on GCP Cloud.The
+							business logic is built on GCP serverless functions and <b>Chubb Studio API</b> that can instantly scale to thousands of
+							live users.</p>
+					</section>
+				</div>
+				<div class="features-row">
+					<section>
+						<span class="icon solid major fa-bolt accent2"></span>
+						<h3>Low Code No Code (LCNC) app</h3>
+						<p>Assure360 is built on highly stable platforms like Google Cloud, <b>Chubb Studio API</b>
+							JSON forms.The complete code including API calls and business logic is hardly 250 lines</p>
+					</section>
+					<section>
+						<span class="icon solid major fa-cloud accent5"></span>
+						<h3>100% Deployed and Functional</h3>
+						<p>Assure360 is fully deployed on GCP Cloud and functional code is available at github
+							url: </p>
+					</section>
+				</div>
+			</section>
+
+			
+
+		</section>
+
+		<!-- CTA -->
+		<!-- <section id="cta">
+
+
+			<form>
+				<div class="row gtr-50 gtr-uniform">
+					<div class="col-8 col-12-mobilep">
+						<input type="email" name="email" id="email" placeholder="Email Address" />
+					</div>
+					<div class="col-4 col-12-mobilep">
+						<input type="submit" value="Sign Up" class="fit" />
+					</div>
+				</div>
+			</form>
+
+		</section> -->
+
+		<!-- Footer -->
+		<footer id="footer">
+			<ul class="icons">
+                <!--social media icons-->
+				<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+				<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+				<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+				<li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+				<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+				<li><a href="#" class="icon brands fa-google-plus"><span class="label">Google+</span></a></li>
+			</ul>
+             <!--copyright-->
+			<ul class="copyright">
+				<li>&copy; Chubb Studio Innovation Challenge. All rights reserved.</li>
+			</ul>
+		</footer>
+
+	</div>
+
+	   <!--scripts to be included in the page-->
+	<script src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/js/jquery.min.js"></script>
+	<script src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/js/jquery.dropotron.min.js"></script>
+	<script src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/js/jquery.scrollex.min.js"></script>
+	<script src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/js/browser.min.js"></script>
+	<script src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/js/breakpoints.min.js"></script>
+	<script src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/js/util.js"></script>
+	<script src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/js/main.js"></script>
+	<script src="https://accounts.google.com/gsi/client" async defer></script>
+	<script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js" type="text/javascript"></script>
+	<link href="https://cdn.syncfusion.com/ej2/material.css" rel="stylesheet">
+	<!-- <script id="menuTemplate" type="text/x-template">
+        ${if(category)}
+            ${category}
+        ${else if (value)}
+            <div style="width:100%;display:flex;justify-content: space-between;">
+            ${if(url)}
+                <img class="e-avatar e-avatar-small" src="//ej2.syncfusion.com/javascript/demos/src/menu/images/${url}.png" />
+            ${/if}
+            <a style="width:100%;" href="${navigate}">${value}</a>
+            ${if(count)}
+                <span class="e-badge e-badge-success">${count}</span>
+            ${/if}
+            </div>
+        ${else}        
+        <div tabindex="0" class="e-card">
+            <div class="e-card-header">
+                <div class="e-card-header-caption">
+                    <div class="e-card-header-title">About Us</div>
+                </div>
+            </div>
+            <div class="e-card-content">
+                ${about.value}
+            </div>
+            <div class="e-card-actions">
+                <button class="e-btn e-outline" style="pointer-events: auto;">
+                    Read More
+                </button>
+            </div>
+        </div>
+        ${/if}    
+    </script>
+	<script>
+
+		var data = [
+			{
+				category: 'Products',
+				options: [
+					{ value: 'JavaScript', url: 'javascript', navigate:"Titan_Contact.html" },
+					{ value: 'Angular', url: 'angular' , navigate:"Titan_FeaturesLanding.html"},
+					{ value: 'ASP.NET Core', url: 'core' },
+					{ value: 'ASP.NET MVC', url: 'mvc' }
+				]
+			},
+			{
+				category: 'Services',
+				options: [
+					{ value: 'Application Development', count: '1200+' },
+					{ value: 'Maintenance & Support', count: '3700+' },
+					{ value: 'Quality Assurance' },
+					{ value: 'Cloud Integration', count: '900+' }
+				]
+			},
+			{
+				category: 'About Us',
+				options: [
+					{
+						id: 'about',
+						about: {
+							value: "We are on a mission to provide world-class best software solutions for web, mobile and desktop platforms. Around 900+ applications are desgined and delivered to our customers to make digital & strengthen their businesses."
+						}
+					}
+				]
+			},
+			{ category: 'Careers' },
+			{ category: 'Sign In' },
+		];
+
+		// Menu model definition 
+		var menuOptions = {
+			items: data,
+			fields: {
+				text: ['category', 'value'],
+				children: ['options']
+			},
+			template: '#menuTemplate'
+		};
+
+		// Menu initialization
+		new ej.navigations.Menu(menuOptions, '#menu');
+
+
+
+	</script> -->
+	<!-- <script>
+		ej.base.enableRipple(true);
+/**
+ * Menu - toolbar integration sample
+ */
+
+
+    var menuTemplate = '<ul id="menu"></ul>';
+    var searchTemplate = '<div class="e-input-group"><input class="e-input" type="text" placeholder="Search" /><span class="e-input-group-icon em-icons e-search"></span></div>';
+    var dropDownBtnTemplate = '<button id="userDBtn">Andrew</button>';
+
+    // Initialize Toolbar component
+    new ej.navigations.Toolbar(
+        {
+            created: create,
+            items: [
+                { template: menuTemplate },
+                { template: searchTemplate, align: 'right' },
+                { template: dropDownBtnTemplate, align: 'right' },
+                { prefixIcon: 'em-icons e-shopping-cart', align: 'right' },
+            ]
+        },
+        '#shoppingtoolbar');
+	
+    function create() {
+		
+        // Menu items definition 
+        var menuItems = {
+           "item" :[{
+                text: 'Appliances',
+                items: [
+                    { 
+                        text: 'Kitchen',
+                        items: [
+                            { text: 'Electric Cookers' },
+                            { text: 'Coffee Makers' },
+                            { text: 'Blenders' }
+                        ]
+                    },
+                    { 
+                        text: 'Washing Machine',
+                        items: [
+                            { text: 'Fully Automatic' },
+                            { text: 'Semi Automatic' }
+                        ]
+                    },
+                    { 
+                        text: 'Air Conditioners',
+                        items: [
+                            { text: 'Inverter ACs' },
+                            { text: 'Split ACs' },
+                            { text: 'Window ACs' }
+                        ]
+                    }
+                ]
+            },
+            { 
+                text: 'Accessories',
+                items: [
+                    { 
+                        text: 'Mobile',
+                        items: [
+                            { text: 'Headphones' },
+                            { text: 'Memory Cards' },
+                            { text: 'Power Banks' }
+                        ]
+                    },
+                    { 
+                        text: 'Computer',
+                        items: [
+                            { text: 'Pendrives' },
+                            { text: 'External Hard Disks' },
+                            { text: 'Monitors' }
+                        ]
+                    }
+                ]
+            },
+            { 
+                text: 'Fashion',
+                items: [
+                    { 
+                        text: 'Men',
+                        items: [
+                            { text: 'Shirts' },
+                            { text: 'Jackets' },
+                            { text: 'Track Suits' }
+                        ]
+                    },
+                    { 
+                        text: 'Women',
+                        items: [
+                            { text: 'Kurtas' },
+                            { text: 'Salwars' },
+                            { text: 'Sarees' }
+                        ]
+                    }
+                ]
+            },
+            { 
+                text: 'Home & Living',
+                items: [
+                    { 
+                        text: 'Furniture',
+                        items: [
+                            { text: 'Beds' },
+                            { text: 'Mattresses' },
+                            { text: 'Dining Tables' }
+                        ]
+                    },
+                    { 
+                        text: 'Decor',
+                        items: [
+                            { text: 'Clocks' },
+                            { text: 'Wall Decals' },
+                            { text: 'Paintings' }
+                        ]
+                    }
+                ]
+            }],
+			"Domain":[
+            { 
+                text: 'Domain1',
+                items: [
+                    { 
+                        text: 'Mobile',
+                        items: [
+                            { text: 'Headphones' },
+                            { text: 'Memory Cards' },
+                            { text: 'Power Banks' }
+                        ]
+                    },
+                    { 
+                        text: 'Computer',
+                        items: [
+                            { text: 'Pendrives' },
+                            { text: 'External Hard Disks' },
+                            { text: 'Monitors' }
+                        ]
+                    }
+                ]
+            },
+            { 
+                text: 'Domain2',
+                items: [
+                    { 
+                        text: 'Men',
+                        items: [
+                            { text: 'Shirts' },
+                            { text: 'Jackets' },
+                            { text: 'Track Suits' }
+                        ]
+                    },
+                    { 
+                        text: 'Women',
+                        items: [
+                            { text: 'Kurtas' },
+                            { text: 'Salwars' },
+                            { text: 'Sarees' }
+                        ]
+                    }
+                ]
+            },
+            { 
+                text: 'Domain3',
+                items: [
+                    { 
+                        text: 'Furniture',
+                        items: [
+                            { text: 'Beds' },
+                            { text: 'Mattresses' },
+                            { text: 'Dining Tables' }
+                        ]
+                    },
+                    { 
+                        text: 'Decor',
+                        items: [
+                            { text: 'Clocks' },
+                            { text: 'Wall Decals' },
+                            { text: 'Paintings' }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Application":[
+            { 
+                text: 'Application1',
+                items: [
+                    { 
+                        text: 'Men',
+                        items: [
+                            { text: 'Shirts' },
+                            { text: 'Jackets' },
+                            { text: 'Track Suits' }
+                        ]
+                    },
+                    { 
+                        text: 'Women',
+                        items: [
+                            { text: 'Kurtas' },
+                            { text: 'Salwars' },
+                            { text: 'Sarees' }
+                        ]
+                    }
+                ]
+            },
+            { 
+                text: 'Application2',
+                items: [
+                    { 
+                        text: 'Furniture',
+                        items: [
+                            { text: 'Beds' },
+                            { text: 'Mattresses' },
+                            { text: 'Dining Tables' }
+                        ]
+                    },
+                    { 
+                        text: 'Decor',
+                        items: [
+                            { text: 'Clocks' },
+                            { text: 'Wall Decals' },
+                            { text: 'Paintings' }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "ML":[
+            {
+                text: 'ML1',
+                items: [
+                    { 
+                        text: 'Kitchen',
+                        items: [
+                            { text: 'Electric Cookers' },
+                            { text: 'Coffee Makers' },
+                            { text: 'Blenders' }
+                        ]
+                    },
+                    { 
+                        text: 'Washing Machine',
+                        items: [
+                            { text: 'Fully Automatic' },
+                            { text: 'Semi Automatic' }
+                        ]
+                    },
+                    { 
+                        text: 'Air Conditioners',
+                        items: [
+                            { text: 'Inverter ACs' },
+                            { text: 'Split ACs' },
+                            { text: 'Window ACs' }
+                        ]
+                    }
+                ]
+            },
+            { 
+                text: 'ML2',
+                items: [
+                    { 
+                        text: 'Mobile',
+                        items: [
+                            { text: 'Headphones' },
+                            { text: 'Memory Cards' },
+                            { text: 'Power Banks' }
+                        ]
+                    },
+                    { 
+                        text: 'Computer',
+                        items: [
+                            { text: 'Pendrives' },
+                            { text: 'External Hard Disks' },
+                            { text: 'Monitors' }
+                        ]
+                    }
+                ]
+            }]
+	};
+
+        var userData = [
+            { text: 'My Profile' },
+            { text: 'Domain' },
+            { text: 'Application' },
+            { text: 'ML' }
+        ];
+		
+        // Initialize Menu componentde
+        new ej.navigations.Menu({ items: menuItems.item}, '#menu');
+
+        // Initialize DropDownButton component
+        new ej.splitbuttons.DropDownButton({ items: userData }, '#userDBtn');
+
+        this.refreshOverflow();
+        this.element.querySelector('.e-shopping-cart').classList.remove('e-icons');
+
+
+		var ddEle = document.querySelector("#userDBtn-popup");
+		ddEle.addEventListener("click",function(e){
+		var clickedText = e.target.innerText;
+		
+		alert(clickedText);
+		$("#menu").empty();
+		new ej.navigations.Menu({ items: menuItems[clickedText]}, '#menu');
+		
+		
+	})
+		
+    } -->
+
+	
+	
+
+	<!-- </script> -->
+
+	<script>
+        //create a function to handle credential response
+		function handleCredentialResponse(googleUser) {
+			alert("signin successfull")
+			console.log(googleUser);
+			var creds = JSON.parse(atob(googleUser.credential.split('.')[1]));
+			var usrname = creds.email;
+			sessionStorage.setItem("UserName", usrname);
+			//window.location.href = "https://storage.googleapis.com/autoslate-app/DataInsightsFinal.html";
+		}
+	</script>
+	<script>
+		w3IncludeHTML();
+	</script>
+
+</body>
+
+</html>

@@ -1,0 +1,372 @@
+﻿<!DOCTYPE HTML>
+
+<html>
+<head>
+	<title>Search Trip Details</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/AppointmentAssets/assets/css/main.css" />
+	<noscript><link rel="stylesheet" href="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/AppointmentAssets/assets/css/noscript.css" /></noscript>
+</head>
+
+
+   <!--scripts to be included in the page-->
+<script src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/AppointmentAssets/assets/js/jquery.dropotron.min.js"></script>
+<script src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/AppointmentAssets/assets/js/jquery.scrolly.min.js"></script>
+<script src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/AppointmentAssets/assets/js/jquery.scrollex.min.js"></script>
+<script src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/AppointmentAssets/assets/js/browser.min.js"></script>
+<script src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/AppointmentAssets/assets/js/breakpoints.min.js"></script>
+<script src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/AppointmentAssets/assets/js/util.js"></script>
+<script src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/AppointmentAssets/assets/js/main.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/AppointmentAssets/JSONForm/deps/opt/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/AppointmentAssets/JSONForm/deps/opt/bootstrap-wysihtml5.css" />
+<link rel="stylesheet" type="text/css" href="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/AppointmentAssets/JSONForm/deps/opt/spectrum.css" />
+
+<script type="text/javascript" src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/AppointmentAssets/JSONForm/deps/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<script type="text/javascript" src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/AppointmentAssets/JSONForm/deps/underscore.js"></script>
+<script type="text/javascript" src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/AppointmentAssets/JSONForm/deps/opt/jsv.js"></script>
+<script type="text/javascript" src="https://storage.googleapis.com/titan-deployment/TitanWebCode/assets/AppointmentAssets/JSONForm/lib/jsonform.js"></script>
+
+<script src="https://ej2.syncfusion.com/javascript/demos/grid/grid-overview/datasource.js" type="text/javascript"></script>
+<script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js" type="text/javascript"></script>
+<link href="https://cdn.syncfusion.com/ej2/material.css" rel="stylesheet">
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly" async defer></script>
+
+<body class="left-sidebar is-preload">
+	
+
+	<label style="margin-left:29px;"><b>Pin the details to get Trip Route Details</b></label>
+	<form style="width: 50%;margin-left: 29px;margin-top: 2%;"></form>
+
+	<div id="res" class="alert"></div>
+	<div class="row">
+		<div id="spinner" style="display:none;position: relative; text-align: center; top: 100px;"><img src="images/Landing.jpg" style="width:20px;" /></div>
+		<div id="Grid">
+		</div>
+		<br />
+		<br />
+		<hr />
+	</div>
+	<br />
+	<div class="row" style="text-align:center">
+		<div id="RouteDialog" style="text-align: left; display: none">
+			<br />
+			Select # of appointments per day :
+			<br />
+			<br />
+			Day 1: <input type="text" style="width:40px" id="Day1Appointments" value="1">
+			&nbsp;&nbsp;&nbsp;
+			Day 2: <input type="text" style="width:40px" id="Day2Appointments" value="1">
+			&nbsp;&nbsp;&nbsp;
+			Day 3: <input type="text" style="width: 40px" id="Day3Appointments" value="1">
+			&nbsp;&nbsp;&nbsp;
+			Day 4: <input type="text" style="width: 40px" id="Day4Appointments" value="1">
+			&nbsp;&nbsp;&nbsp;
+			<br />
+			<br />
+			<button id="markerdisplay" class="btn btn-secondary">Show Map Locations..</button> &nbsp; &nbsp; &nbsp;
+			<a href="RouteMaps.html" target="_blank">
+				Initiate Optimal Routing.
+				
+			</a>
+			<!--<button id="routedisplay" class="btn btn-secondary" onClick="location.href='RouteMaps.html'" target="_blank">>Initiate Optimal Routing..</button>-->
+			<br />
+			<br />
+		</div>
+		<br />
+		<br />
+		<br />
+		<br />
+	</div>
+
+	<div id="MapRouter" style="width:800px;height:600px">
+		<p>Optimal Route will be loaded here once Agent Addresses are picked up..</p>
+	</div>
+
+	<script type="text/javascript">
+		function popitup(url) {
+			newwindow = window.open(url, 'name', 'height=600,width=800');
+			if (window.focus) { newwindow.focus() }
+			return false;
+		}
+
+		function httpGet(theUrl) {
+
+			let xmlhttp;
+
+			if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+				xmlhttp = new XMLHttpRequest();
+			} else { // code for IE6, IE5
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+
+			xmlhttp.onreadystatechange = function () {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					return xmlhttp.responseText;
+				}
+			}
+			xmlhttp.open("GET", theUrl, false);
+			xmlhttp.send();
+
+			return xmlhttp.response;
+		}
+
+		//Create multiple Appointments by selecting + and - buttons
+		$('form').jsonForm({
+			//create a schema
+			"schema": {
+				"StartDate": {
+					"title": "Enter start date for Trip :",
+					"type": "string",
+					"default":"2022-11-06",
+					"required":true
+				},
+				"EndDate": {
+					"title": "Enter planned date for Trip :",
+					"type": "string",
+					"default":"2022-11-09",
+					"required":true
+				}
+			},
+			"form": [
+			{
+      "key": "StartDate",
+      "type": "date"
+    },
+	{
+      "key": "EndDate",
+      "type": "date"
+    },
+	
+	{
+	"type": "actions",
+      "items": [
+        {
+          "type": "submit",
+          "title": "Submit"
+        }
+		]
+		}
+			],
+			onSubmit: function (errors, values) {
+				debugger
+				if (errors) {
+					$('#res').html('<p>Please fill required fields!</p>');
+				}
+				else {
+					$("#spinner").show();
+
+					var queries = [];
+					//create selObj
+					var selObj = {}
+					selObj.type = "GetTripRouteDetails";
+					selObj.bucketName = "titan-deployment";
+					selObj.dbName = "SchedulingRouting.db";
+					selObj.tabName = "Trip";
+					selObj.StartDate = values.StartDate;
+					selObj.EndDate = values.EndDate;
+					
+				
+					var qry = 'select * from Trip where TripDate between ' + "'" + values.StartDate + "'" + ' and ' + "'" + values.EndDate + "'"
+					// alert(qry);
+					
+
+					selObj.queries = qry;
+					var data = JSON.parse(httpGet("https://titan-api-6httuqd2wq-uc.a.run.app?dbParams=" + JSON.stringify(selObj)));
+					//create a syncfusion grid 
+					var grid = new ej.grids.Grid({
+						dataSource: data,
+						allowSelection: true,
+						allowFiltering: true,
+						allowSorting: true,
+						allowPaging: true,
+						enableVirtualization: true,
+						toolbar: ['Search'],
+						filterSettings: { type: 'Menu' },
+						selectionSettings: { persistSelection: true, type: "Multiple", checkboxOnly: true },
+						enableHover: false,
+						enableHeaderFocus: true,
+						pageSettings: { pageCount: 4, pageSizes: true },
+						height: 300,
+						rowHeight: 38,
+						columns: [
+						{ field: 'TripID', headerText: 'ID' },
+					{ field: 'AgencyID', headerText: 'Agency ID' },
+					{ field: 'TripDate', headerText: ' Date' },
+					{ field: 'TripInformation', headerText: 'Trip Info' },
+					{ field: 'TripLocation', headerText: 'Trip Location' },
+					{ field: 'TripTotalGoodsValue', headerText: 'Goods Value' },
+          { field: 'AccidentPolicyID', headerText: 'Accident Policy ID' },
+          { field: 'ValuablesPolicyID', headerText: 'Valuables Policy ID' },
+          { field: 'GadgetPolicyID', headerText: 'Gadget Policy ID' }
+						]
+					});
+
+					grid.appendTo('#Grid');
+					
+
+
+					var addresses = [];
+					data.map(function (e) { addresses.push(e.TripLocation); });
+					// alert(addresses)
+					localStorage.setItem("Addresses", JSON.stringify(addresses));
+                    localStorage.setItem("Day1", document.querySelector("#Day1Appointments").value);
+                    localStorage.setItem("Day2", document.querySelector("#Day2Appointments").value);
+                    localStorage.setItem("Day3", document.querySelector("#Day3Appointments").value);
+                    localStorage.setItem("Day4", document.querySelector("#Day4Appointments").value);
+                    //sessionStorage.setItem("AgentSessionData", JSON.stringify(args.rowData));
+					//Once we have all the locations initialize the Map
+
+					InitMap();
+                    var x = document.getElementById("RouteDialog");
+					if (x.style.display === "none") {
+						x.style.display = "block"
+					}
+					$("#spinner").hide();
+				}
+			}
+		});
+
+        //Now Get the Addresses from the GRID and PLOT Them on the map
+        var locations = [
+            ['16-11-511/D/211, Shalivahana Nagar, Sarita Arcade, SBI Colony, Dilsukhnagar, Hyderabad, Telangana 500036, India', 17.3726, 78.5228, 1],
+            ['16-11-511, DSNR, D/238, Shalivahana Nagar, SBI Colony, Moosarambagh, Hyderabad, Telangana 500036, India', 17.3708, 78.5150, 2],
+            ['10-2-10/11, Aswini Colony, West Marredpally, Secunderabad, Telangana 500026, India', 17.449237, 78.500766, 3],
+            ['Plot 40-43, Street 19, Tukaramgate, 500017,, Secunderabad, Telangana, India', 17.4439, 78.5214],
+            ['6-2-977, Khairatabad Rd, Taj Enclave, Khairtabad, Hyderabad, Telangana 500004, India', 17.4084, 78.4617, 5],
+            ['6-3-608/1/A, Anand Nagar Rd, Venkataraman Colony, Khairatabad, Hyderabad, Telangana 500004, India', 17.4141, 78.4526, 6],
+            ['Sai Balaji Residency, plot no: 875, Seetharampuram Colony, Goutham Nagar, Patancheruvu, Telangana 502319, India', 17.53334, 78.26452, 7],
+            ['3-104/11/A, Goutamnagar, Patancheru Industrial Area, Patancheruvu, Telangana 502324, India', 17.5322, 78.2577, 8],
+            ['501218, 20-171/1, Rallaguda Rd, Madhura Nagar, Shamshabad, Hyderabad, Telangana 501218, India', 17.2612, 78.3835, 9],
+            ['111 CSK Prestige County, Shamshabad, Telangana 501208, India', 17.15, 78.22, 10],
+            ['Plot 40 - 43, Street 19, Tukaramgate, 500017, Secunderabad, Telangana, India', 17.4439, 78.5214, 11]
+        ];
+
+		function InitMap() {
+
+			var map = new google.maps.Map(document.getElementById('MapRouter'), {
+				zoom: 13,
+                center: new google.maps.LatLng(17.3850, 78.4867),
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			});
+
+			var infowindow = new google.maps.InfoWindow();
+
+			var marker, i;
+
+			for (i = 0; i < locations.length; i++) {
+				marker = new google.maps.Marker({
+					position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+					map: map
+				});
+				//geocoder = new google.maps.Geocoder();
+				//debugger
+				//marker = codeAddress(locations[i][0], geocoder, map);
+				google.maps.event.addListener(marker, 'click', (function (marker, i) {
+					return function () {
+						infowindow.setContent(locations[i][0]);
+						infowindow.open(map, marker);
+					}
+				})(marker, i));
+			}
+		}
+
+		//create a function
+        function codeAddress(addressstring,geocoder, map) {
+            geocoder.geocode({ 'address': addressstring }, function (results, status) {
+                if (status === 'OK') {
+                    map.setCenter(results[0].geometry.location);
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: results[0].geometry.location
+					});
+					return marker;
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+
+        $("#MapRouter").dialog({
+            autoOpen: false,
+            maxWidth: 1300,
+            maxHeight: 700,
+            width: 1300,
+			height: 700,
+            title: 'Routing the Addresses on the Map',
+			modal: true,
+            buttons: {
+                "Route-Day 1": function () {
+                    $(this).dialog("close");
+				},
+                "Route-Day 2": function () {
+                    $(this).dialog("close");
+				},
+                "Route-Day 3": function () {
+                    $(this).dialog("close");
+				},
+                "Route-Day 4": function () {
+                    $(this).dialog("close");
+                },
+                Cancel: function () {
+                    $(this).dialog("close");
+                }
+            },
+            close: function () {
+            }
+        });
+	
+		$('#markerdisplay').click(function () {
+			alert("Calculating Optimal Routes..")
+			$('#MapRouter').dialog('open');
+			return false;
+		});
+
+	</script>
+
+
+	<!-- Footer -->
+	<div id="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+
+					<!-- Contact -->
+					<section class="contact">
+						<ul class="icons">
+							<!--social media icons-->
+							<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+							<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+							<li><a href="#" class="icon brands fa-pinterest"><span class="label">Pinterest</span></a></li>
+							<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+							<li><a href="#" class="icon brands fa-linkedin-in"><span class="label">Linkedin</span></a></li>
+						</ul>
+					</section>
+
+					<!-- Copyright -->
+					<!-- Copyright -->
+					<div class="copyright">
+						<ul class="menu">
+							<li>&copy; Chubb Studio Innovation Challenge. All rights reserved.</li>
+						</ul>
+					</div>
+
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

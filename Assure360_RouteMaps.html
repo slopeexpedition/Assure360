@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<!--
+ @license
+ Copyright 2019 Google LLC. All Rights Reserved.
+ SPDX-License-Identifier: Apache-2.0
+-->
+<html>
+<head>
+    <title>Waypoints in Directions</title>
+    <style>
+        /**
+ * @license
+ * Copyright 2019 Google LLC. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+        /* Optional: Makes the sample page fill the window. */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            height: 100%;
+            display: flex;
+        }
+
+        #sidebar {
+            flex-basis: 15rem;
+            flex-grow: 1;
+            padding: 1rem;
+            max-width: 30rem;
+            height: 100%;
+            box-sizing: border-box;
+            overflow: auto;
+        }
+
+        #map {
+            flex-basis: 0;
+            flex-grow: 4;
+            height: 100%;
+        }
+
+        #directions-panel {
+            margin-top: 10px;
+        }
+    </style>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+   
+    <!-- jsFiddle will insert css and js -->
+</head>
+<body style="font-family: Arial, Helvetica, sans-serif; font-size: small;">
+    <div id="container">
+        <div id="map"></div>
+        <div id="sidebar">
+            <div>
+                <b>Home/Start Location : </b>
+                <select id="start">
+                </select>
+                <br />
+                <b>Waypoints:</b> <br />
+                <i>(Ctrl+Click or Cmd+Click for multiple selection)</i> <br />
+
+                <select multiple id="waypoints">
+                </select>
+                <br />
+                <b>Final Destination: </b>
+                <select id="end">
+                </select>
+                <br />
+                <input type="submit" id="submit" />
+            </div>
+            <div id="directions-panel"></div>
+        </div>
+    </div>
+
+    <!--
+     The `defer` attribute causes the callback to execute after the full HTML
+     document has been parsed. For non-blocking uses, avoiding race conditions,
+     and consistent behavior across browsers, consider loading using Promises
+     with https://www.npmjs.com/package/@googlemaps/js-api-loader.
+    -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly"
+            defer></script>
+   
+    <script>
+        
+
+        function initMap() {
+            const directionsService = new google.maps.DirectionsService();
+            const directionsRenderer = new google.maps.DirectionsRenderer();
+            //17.3850, 78.4867
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 6,
+                center: { lat: 17.3850, lng: 78.4867 },
+            });
+
+            directionsRenderer.setMap(map);
+            document.getElementById("submit").addEventListener("click", () => {
+                calculateAndDisplayRoute(directionsService, directionsRenderer);
+            });
+        }
+
+        function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+            const waypts = [];
+            const checkboxArray = document.getElementById("waypoints");
+            let day1 = parseInt(localStorage.getItem("Day1"));
+            let day2 = parseInt(localStorage.getItem("Day2"));
+            let day3 = parseInt(localStorage.getItem("Day3"));
+            let day4 = parseInt(localStorage.getItem("Day4"));
+            for (let i = 0; i < checkboxArray.length; i++) {
+
+                if (checkboxArray.options[i].selected) {
+                    //if (day1 >= 0) {
+                    //    day1--;
+                    //    if (day1 == 0) {
+                    //        waypts.push({
+                    //            location: document.getElementById("start").value,
+                    //            stopover: true,
+                    //        });
+                    //    }
+
+                    //}
+                    //else if (day2 >= 0) {
+                    //    day2--;
+                    //    if (day2 == 0) {
+                    //        waypts.push({
+                    //            location: document.getElementById("start").value,
+                    //            stopover: true,
+                    //        });
+                    //    }
+                    //}
+                    //else if (day3 >= 0) {
+                    //    day3--;
+                    //    if (day3 == 0) {
+                    //        waypts.push({
+                    //            location: document.getElementById("start").value,
+                    //            stopover: true,
+                    //        });
+                    //    }
+                    //}
+                    //else if (day4 > 0) {
+                    //    day4--;
+                    //    if (day4 == 0) {
+                    //        waypts.push({
+                    //            location: document.getElementById("start").value,
+                    //            stopover: true,
+                    //        });
+                    //    }
+                    //}
+                    //if (i > day1) {
+                    //    waypts.push({
+                    //        location: document.getElementById("start").value,
+                    //        stopover: true,
+                    //    });
+                    //}
+                    waypts.push({
+                        location: checkboxArray[i].value,
+                        stopover: true,
+                    });
+                    
+
+                }
+                console.log(waypts);
+            }
+
+            directionsService
+                .route({
+                    origin: document.getElementById("start").value,
+                    destination: document.getElementById("end").value,
+                    waypoints: waypts,
+                    optimizeWaypoints: true,
+                    travelMode: google.maps.TravelMode.DRIVING,
+                })
+                .then((response) => {
+                    directionsRenderer.setDirections(response);
+
+                    const route = response.routes[0];
+                    const summaryPanel = document.getElementById("directions-panel");
+
+                    summaryPanel.innerHTML = "";
+
+                    let day1 = localStorage.getItem("Day1");
+                    let day2 = localStorage.getItem("Day2");
+                    let day3 = localStorage.getItem("Day3");
+                    let day4 = localStorage.getItem("Day4");
+                    // For each route, display summary information.
+                    for (let i = 0; i < route.legs.length; i++) {
+                        const routeSegment = i + 1;
+                        if (day1 > 0) {
+                            day = 1;
+                            day1--;
+                        }
+                        else if (day2 > 0) {
+                            day = 2;
+                            day2--;
+                        }
+                        else if (day3 > 0) {
+                            day = 3;
+                            day3--;
+                        }
+                        else if (day4 > 0) {
+                            day = 4;
+                            day4--;
+                        }
+                        summaryPanel.innerHTML +=
+                            '<div style="background-color:lightgray"><b><span style="color:red">Day ' + day +'</span> Route: ' + routeSegment + "</b><br>";
+                        summaryPanel.innerHTML += route.legs[i].start_address + " <br> --> <br> ";
+                        summaryPanel.innerHTML += route.legs[i].end_address + "<br>";
+                        summaryPanel.innerHTML += route.legs[i].distance.text + "<br><br></div>";
+                    }
+                })
+                .catch((e) => window.alert("Directions request failed due to " + status));
+        }
+
+        //Load the Addresses
+        debugger
+        var AddressArray = JSON.parse(localStorage.getItem("Addresses"));
+        //alert(AddressArray)
+        var startEle = document.querySelector("#start");
+        var startOpt = document.createElement("option");
+        startOpt.value = AddressArray[0];
+        startOpt.innerHTML = AddressArray[0];
+        startEle.appendChild(startOpt);
+
+        var waypoints = document.querySelector("#waypoints");
+        for (let i = 1; i <= AddressArray.length-2; i++) {
+            var opt = document.createElement('option');
+            opt.value = AddressArray[i];
+            opt.innerHTML = AddressArray[i];
+            waypoints.appendChild(opt);
+        }
+
+        var startEle = document.querySelector("#end");
+        var startOpt = document.createElement("option");
+        startOpt.value = AddressArray[AddressArray.length-1];
+        startOpt.innerHTML = AddressArray[AddressArray.length-1];
+        startEle.appendChild(startOpt);
+        window.initMap = initMap;
+    </script>
+
+</body>
+</html>
